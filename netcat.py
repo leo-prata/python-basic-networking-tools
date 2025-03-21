@@ -11,7 +11,7 @@ def execute(cmd):
     if not cmd:
         return
     
-    output = subprocess.check_output(shlex.split(cmd), stderr=subprocess.STDOUT)
+    output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
     return output.decode()
 
 class NetCat:
@@ -59,7 +59,7 @@ class NetCat:
         self.socket.listen(5)
 
         while True:
-            client_socket, = self.socket.accept()
+            client_socket, _ = self.socket.accept()
             client_thread = threading.Thread(target=self.handle, args=(client_socket,))
             client_thread.start()
 
